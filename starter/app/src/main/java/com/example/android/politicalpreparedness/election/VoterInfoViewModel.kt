@@ -2,9 +2,12 @@ package com.example.android.politicalpreparedness.election
 
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.database.ElectionDatabase
+import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.network.models.Election
 import kotlinx.coroutines.launch
 
@@ -28,6 +31,9 @@ class VoterInfoViewModel(application: Application) :  AndroidViewModel(applicati
 
     fun getElection(id: Int) {
         electionId.value = id
+    }
+    fun Url(url: String) {
+        this.url.value = url
     }
     //TODO: Add var and methods to save and remove elections to local database
     //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
