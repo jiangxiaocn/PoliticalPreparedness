@@ -32,7 +32,7 @@ class DetailFragment : Fragment() {
 
     companion object {
         //TODO: Add Constant for Location request
-        private val REQUEST_LOCATION_PERMISSION = 1
+        private const val REQUEST_LOCATION_PERMISSION = 1
     }
 
     //TODO: Declare ViewModel
@@ -58,11 +58,10 @@ class DetailFragment : Fragment() {
 
         val states = resources.getStringArray(R.array.states)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, states)
-
         binding.state.adapter = adapter
+
         //TODO: Establish button listeners for field and location search
         binding.buttonSearch.setOnClickListener {
-            hideKeyboard()
             viewModel.getRepresentatives()
         }
 
@@ -72,11 +71,17 @@ class DetailFragment : Fragment() {
 
         //TODO: Define and assign Representative adapter
         //TODO: Populate Representative adapter
-        viewModel.representatives.observe(viewLifecycleOwner, Observer {
+        representativeAdapter = RepresentativeListAdapter()
+        binding.representativesRecyclerView.adapter = representativeAdapter
+       /* viewModel.representatives.observe(viewLifecycleOwner, Observer {
             if ( null != it ) {
-                 representativeAdapter =  binding.representativesRecyclerView.adapter as RepresentativeListAdapter
+                representativeAdapter =  binding.representativesRecyclerView.adapter as RepresentativeListAdapter
                 representativeAdapter.submitList(it)
             }
+        })*/
+        viewModel.representatives.observe(viewLifecycleOwner, Observer {
+            representatives ->
+            representativeAdapter.submitList(representatives)
         })
         return binding.root
     }
@@ -136,7 +141,6 @@ class DetailFragment : Fragment() {
                         viewModel.address.value = currentLocation
                         viewModel.getRepresentatives()
                     }
-
                 }
     }
 

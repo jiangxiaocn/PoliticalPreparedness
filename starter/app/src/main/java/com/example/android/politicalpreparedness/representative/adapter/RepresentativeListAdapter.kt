@@ -11,13 +11,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
+import com.example.android.politicalpreparedness.databinding.ElectionItemBinding
 import com.example.android.politicalpreparedness.databinding.RepresentativeItemBinding
+import com.example.android.politicalpreparedness.election.adapter.ElectionViewHolder
 import com.example.android.politicalpreparedness.network.models.Channel
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.Official
 import com.example.android.politicalpreparedness.representative.model.Representative
 
 class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeDiffCallback()){
+    var representatives: List<Representative> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
         return RepresentativeViewHolder.from(parent)
@@ -27,6 +34,7 @@ class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewH
         val item = getItem(position)
         holder.bind(item)
     }
+    override fun getItemCount(): Int = representatives.size
 }
 
 class RepresentativeViewHolder(val binding: RepresentativeItemBinding): RecyclerView.ViewHolder(binding.root) {
